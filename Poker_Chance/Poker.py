@@ -2,6 +2,7 @@ import Deck
 from datetime import datetime
 
 def trial(num):
+    start = datetime.now()
     results = {}
     for x in range(num):
         d = Deck.Deck()
@@ -11,17 +12,39 @@ def trial(num):
             results[hand] += 1
         else:
             results[hand] = 1
-    print(results)
+    print("trial runtime: " + str(datetime.now()-start))
+    return results
+
+# How many trials should the program run with num of draws
+def run(trials, num):
+    average = {}
     percentage = {}
-    for x in results:
-        percentage[x] = f"{(float(results[x])/float(num)):.6%}"
-    print(percentage)
+    for x in range(trials):
+        t = trial(num)
+        if(len(average) == 0):
+            average = t
+        else:
+            for x in t:
+                average[x] += t[x]
+    for x in average:
+        percentage[x] = f"{(float(average[x]) / float(trials*num)):.6%}"
+    print_results(percentage)
+                    
+def print_results(percentage):
+    l = ['royal flush', 'straight flush', 'straight', 'flush', 'four of a kind', 'full house', 'three of a kind', 'two pairs', 'pair', 'high card']
+    for x in l:
+        if (x not in percentage):
+            print(x + " not available")
+        else:
+            print(x.upper() + ": " + percentage[x])
+
 
 
 def main():
     start=datetime.now()
-    trial(1000000)
+    run(3, 1000000)
     print("totoal runtime: " + str(datetime.now()-start))
+
     
     
 if __name__ == "__main__":
