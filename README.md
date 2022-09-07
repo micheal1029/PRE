@@ -7,7 +7,10 @@ I will be using random.shuffle and will be picking five cards to see if there ar
 "from operator import \*" is for countOf method used in Deal function
 
 Finished writing the deal function. Need to write a test function to ensure it works properly
+##
+finished writing trial function to calcualte the total percentage of hands from specified number of draws
+Need to run multiple trials to get the average
 
 Referenced https://www.youtube.com/channel/UCCjnRY0aATv0jm0res8zuUQ for deck building
 
-
+Reference https://en.wikipedia.org/wiki/Poker_probability 
