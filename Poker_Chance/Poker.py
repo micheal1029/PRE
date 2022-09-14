@@ -2,7 +2,6 @@ import Deck
 from datetime import datetime
 
 def trial(draws):
-    start = datetime.now()
     results = {}
     for x in range(draws):
         d = Deck.Deck()
@@ -16,24 +15,19 @@ def trial(draws):
     ratio = {}
     for x in results:
         ratio[x] = results[x]/draws
-    print("Trial Runtime: " + str(datetime.now()-start))
-    print_percentage(ratio)
     return ratio
 
 # Averages each trials and returns a dictionary with strings as keys and float as values
 def run(trials, draws):
-    init_time = datetime.now().strftime("%m/%d/%y %H:%M:%S") #Month/Date/Year cuz I'm American
-    start=datetime.now()
-    total = {}
+    total = {'royal flush': 0, 'straight flush': 0, 'four of a kind': 0, 'full house': 0, 'flush': 0, 
+        'straight': 0, 'three of a kind': 0, 'two pairs': 0, 'pair': 0, 'high card': 0}
+
     n = 1
     for x in range(trials):
         print("Trial: " + str(n))
         t = trial(draws)
-        if(len(total) == 0):
-            total = t
-        else:
-            for x in t:
-                total[x] += t[x]
+        for x in t:
+            total[x] += t[x]
         n += 1
 
     average = {} #decimals
@@ -46,38 +40,39 @@ def run(trials, draws):
     for x in reference:
         diff[x] = average[x] - reference[x]
 
-    print("Total Runtime: " + str(datetime.now()-start))
     print("Total Average Percentage:")
     print_percentage(average)
     print("Percentage Difference: ")
     data = print_percentage(diff)
 
-    with open('3million.txt', 'a') as f:
-        f.write(init_time + "\n")
-        f.write(data)
-        f.write("\n")
-
-    return average
+    return data
                     
 def print_percentage(ratio):
     l = ['royal flush', 'straight flush', 'four of a kind', 'full house', 'flush', 'straight', 'three of a kind', 'two pairs', 'pair', 'high card']
     s = ""
     for x in l:
-        if (x not in ratio):
-            print(x.upper() + ": N/A")
-            s += (x.upper() + ": N/A\n")
-        else:
-            print(x.upper() + ": " + f"{ratio[x]:.6%}")
-            s += (x.upper() + ": " + f"{ratio[x]:.6%}\n")
+        print(x.upper() + ": " + f"{ratio[x]:.6%}")
+        s += (x.upper() + ": " + f"{ratio[x]:.6%}\n")
     print()
     return s
 
 
 
 def main():
-    trials = 3
+    trials = 5
     draws = 1000000
-    run(trials, draws)
+    start = datetime.now()
+    print(run(trials, draws))
+
+    # for x in range(10):
+    #     init_time = datetime.now().strftime("%m/%d/%y %H:%M:%S") #Month/Date/Year cuz I'm American
+    #     data = run(trials, draws)
+    #     with open('3million.txt', 'a') as f:
+    #         f.write(init_time + "\n")
+    #         f.write(data)
+    #         f.write("\n")
+    #         f.close()
+    print("Total Runtime: " + str(datetime.now()-start))
 
     
     
